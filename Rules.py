@@ -9,6 +9,8 @@ reine = 6
 
 
 def test(autorise,piece,posfin,posdep):
+    print (posfin)
+    print (posfin[0])
     if autorise[piece] == (abs(posfin[0] - posdep[0]) , abs(posfin[1] - posdep[1])) or autorise[piece] == (abs(posdep[0] - posfin[0]),abs (posdep[1] - posfin[1])):
         return True
     if autorise[piece] == (abs(posfin[1] - posdep[1]),abs(posfin[0] - posdep[0]) ) or autorise[piece] == (abs(posdep[1] - posfin[1]),abs(posdep[0] - posfin[0])):
@@ -251,6 +253,7 @@ def roidanger(cara,board,dernier_joueur):
     return True 
 
 def echemat():
+    global gagnen
     posibilitenoir = []
     posibiliteblanc = []
     for y in range(8):
@@ -261,56 +264,62 @@ def echemat():
                 posibilitenoir.append((x,y)) 
             if board[y][x] == (5, True) :
                 poseroiblanc = (x,y)
-                posibilitenoir.append((x,y)) 
+                posibiliteblanc.append((x,y)) 
     for y in range(8):
         for x in range(8):
-            if testroie(autorise,6,(x,y),poseroinoir)  :
-                posibilitenoir.append((x,y)) 
-            if testroie(autorise,6,(x,y),poseroiblanc)  :
-                posibiliteblanc.append((x,y)) 
+            if board[y][x] != 0 : 
+                if testroie(autorise,6,(x,y),poseroinoir) and board[y][x][1] != False : 
+                    posibilitenoir.append((x,y)) 
+                if testroie(autorise,6,(x,y),poseroiblanc) and board[y][x][1] != True :
+                    posibiliteblanc.append((x,y)) 
+            else:
+                if testroie(autorise,6,(x,y),poseroinoir) : 
+                    posibilitenoir.append((x,y)) 
+                if testroie(autorise,6,(x,y),poseroiblanc):
+                    posibiliteblanc.append((x,y)) 
+    print ("efzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",posibiliteblanc)
+    print ("efzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",posibilitenoir)
     for i in range(len(posibilitenoir)) :
         for y in range(8):
             print("a")
-        for x in range(8):
-            print("b")
-            if board[y][x] != 0 :
-                cara[0] = board[y][x]
-                cara[1][0] = (x, y)
-                if cara[0][1] == True: 
-                    print(posibilitenoir[i])
-                    posfin = posibilitenoir[i]
-                print (cara)
-                if cara[0][0] == 1 :
-                    print ("1")
-                    print(testpion(autorise,cara[0][0],posfin,cara[1][0],board,cara))
-                    if testpion(autorise,cara[0][0],posfin,cara[1][0],board,cara) :
-                        posibilitenoir[i] = True 
-                if cara[0][0] == 2 :
-                    print ("2")
-                    print(testour(posfin,cara[1][0],board))
-                    if testour(posfin,cara[1][0],board) : 
-                        posibilitenoir[i] = True 
-                if cara[0][0] == 3:
-                    print ("3")
-                    
-                    if test(autorise,cara[0][0],posfin,cara[1][0]): 
-                        posibilitenoir[i] = True 
-                if cara[0][0] == 4 :
-                    print ("4")
-                    
-                    if testfou(posfin,cara[1][0],board)  :
-                        posibilitenoir[i] = True 
-                    print ("6")
-                    if testfou(posfin,cara[1][0],board)  : 
-                        posibilitenoir[i] = True 
-                    if testour(posfin,cara[1][0],board)  :
-                        posibilitenoir[i] = True 
+            for x in range(8):
+                print("b")
+                if board[y][x] != 0 :
+                    cara[0] = board[y][x]
+                    cara[1][0] = (x, y)
+                    if cara[0][1] == True: 
+                        print(posibilitenoir[i])
+                        posfin = posibilitenoir[i]
+                        print (cara)
+                        if cara[0][0] == 1 :
+                            print ("1")
+                            if posibilitenoir[i] != True and testpion(autorise,cara[0][0],posfin,cara[1][0],board,cara) :
+                                posibilitenoir[i] = True 
+                        if cara[0][0] == 2 :
+                            print ("2")
+                            if posibilitenoir[i] != True and testour(posfin,cara[1][0],board) : 
+                                posibilitenoir[i] = True 
+                        if cara[0][0] == 3:
+                            print ("3")
+                            if posibilitenoir[i] != True and test(autorise,cara[0][0],posfin,cara[1][0]): 
+                                posibilitenoir[i] = True 
+                        if cara[0][0] == 4 :
+                            print ("4")
+                            
+                            if posibilitenoir[i] != True and testfou(posfin,cara[1][0],board)  :
+                                posibilitenoir[i] = True 
+                            print ("6")
+                            if posibilitenoir[i] != True and testfou(posfin,cara[1][0],board)  : 
+                                posibilitenoir[i] = True 
+                            if posibilitenoir[i] != True and testour(posfin,cara[1][0],board)  :
+                                posibilitenoir[i] = True 
         num = 0
+        print ("ooooooooooooooooooooooooooooooooooooooooooooooooooooooo",posibilitenoir)
     while True in posibilitenoir :
         num +=1 
         if posibilitenoir[num] == True :
             del posibilitenoir[num] 
-        if num > len[posibilitenoir] :
+        if num > len(posibilitenoir) :
             num = 0
     if len(posibilitenoir ) == 0 :
         gagnen = "Blanc" 
@@ -319,46 +328,44 @@ def echemat():
     for i in range(len(posibiliteblanc)) :
         for y in range(8):
             print("a")
-        for x in range(8):
-            print("b")
-            if board[y][x] != 0 :
-                cara[0] = board[y][x]
-                cara[1][0] = (x, y)
-                if cara[0][1] == True: 
-                    print(posibiliteblanc[i])
-                    posfin = posibiliteblanc[i]
-                print (cara)
-                if cara[0][0] == 1 :
-                    print ("1")
-                    print(testpion(autorise,cara[0][0],posfin,cara[1][0],board,cara))
-                    if testpion(autorise,cara[0][0],posfin,cara[1][0],board,cara) :
-                        posibiliteblanc[i] = True   
-                if cara[0][0] == 2 :
-                    print ("2")
-                    print(testour(posfin,cara[1][0],board))
-                    if testour(posfin,cara[1][0],board) : 
-                        posibiliteblanc[i] = True   
-                if cara[0][0] == 3:
-                    print ("3")
-                    print(board[posfin[1]][posfin[0]][1])
-                    if test(autorise,cara[0][0],posfin,cara[1][0]): 
-                        posibiliteblanc[i] = True  
-                if cara[0][0] == 4 :
-                    print ("4")
-                    print(board[posfin[1]][posfin[0]][1])
-                    if testfou(posfin,cara[1][0],board)  :
-                        posibiliteblanc[i] = True   
-                    print ("6")
-                    if testfou(posfin,cara[1][0],board)  : 
-                        posibiliteblanc[i] = True    
-                    if testour(posfin,cara[1][0],board)  :
-                        posibiliteblanc[i] = True    
+            for x in range(8):
+                print("b")
+                if board[y][x] != 0 :
+                    cara[0] = board[y][x]
+                    cara[1][0] = (x, y)
+                    if cara[0][1] == False: 
+                        print(posibiliteblanc[i])
+                        posfin = posibiliteblanc[i]
+                        print (cara)
+                        if cara[0][0] == 1 :
+                            print ("1")
+                            if posibilitenoir[i] != True and testpion(autorise,cara[0][0],posfin,cara[1][0],board,cara) :
+                                posibiliteblanc[i] = True   
+                        if cara[0][0] == 2 :
+                            print ("2")
+                            if posibilitenoir[i] != True and testour(posfin,cara[1][0],board) : 
+                                posibiliteblanc[i] = True   
+                        if cara[0][0] == 3:
+                            print ("3")
+                        
+                            if posibilitenoir[i] != True and test(autorise,cara[0][0],posfin,cara[1][0]): 
+                                posibiliteblanc[i] = True  
+                        if cara[0][0] == 4 :
+                            print ("4")
+                            if posibilitenoir[i] != True and testfou(posfin,cara[1][0],board)  :
+                                posibiliteblanc[i] = True   
+                            print ("6")
+                            if posibilitenoir[i] != True and testfou(posfin,cara[1][0],board)  : 
+                                posibiliteblanc[i] = True    
+                            if posibilitenoir[i] != True and testour(posfin,cara[1][0],board)  :
+                                posibiliteblanc[i] = True    
     num = 0
+    print ("ooooooooooooooooooooooooooooooooooooooooooooooooooooooo",posibiliteblanc)
     while True in posibiliteblanc :
         num +=1 
         if posibiliteblanc[num] == True :
             del posibiliteblanc[num] 
-        if num > len[posibiliteblanc] :
+        if num > len(posibiliteblanc) :
             num = 0
     if len(posibiliteblanc ) == 0 :
         gagnen = "Noir"
