@@ -45,15 +45,13 @@ def onrealease(event):
         if IsLegal(hand, board):
             board_test = deepcopy(board)
             board_test[y][x] = hand[0]
-            if roidanger(cara,board_test,hand[0][1]):
-                print ("tout est bon")
-                board[y][x] = hand[0]
-                print(couleurtour)
-                couleurtour = False if couleurtour == True else True
-                print("SET TO",couleurtour)
-                echemat()
-            else:
-                board[hand[1][0][1]][hand[1][0][0]] = hand[0]
+
+            print ("tout est bon")
+            board[y][x] = hand[0]
+            print(couleurtour)
+            couleurtour = False if couleurtour == True else True
+            print("SET TO",couleurtour)
+            echemat()
         else:
             board[hand[1][0][1]][hand[1][0][0]] = hand[0]
         
