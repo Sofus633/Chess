@@ -2,14 +2,9 @@ from Setting import *
 from Rules import *
 import winsound
 import threading
-from pygame import *
 from copy import deepcopy
 import random
 
-mixer.init()
-mixer.music.load("Sounds\chessmusic" + ("2" if random.randint(0, 2) == 1 else "1") + ".mp3")
-mixer.music.play()
-mixer.music.set_volume(0.1)
 
 
 def onclick(event):
@@ -67,11 +62,3 @@ def onmotion(event):
     global hand
     hand[3] = (event.x, event.y)
     
-def musicbutton():
-    global musicstate
-    if musicstate == "Playing":
-        mixer.music.pause()
-        musicstate = 'Pause'
-    else:
-        mixer.music.play()
-        musicstate = "Playing"

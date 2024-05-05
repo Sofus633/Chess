@@ -10,16 +10,14 @@ global canva
 
 
 def init():
-    window.geometry("660x560")
+    window.geometry("560x560")
     
-    button = Button(window, text="Music", command=musicbutton)
     
     window.bind('<Button-1>', onclick, add='+')
     window.bind('<ButtonRelease-1>', onrealease, add='+')
     window.bind('<Motion>', onmotion, add='+')
     
     
-    button.place(x = 600, y= 50)
     window.after(100, main)
     return window, canva
 
